@@ -42,7 +42,7 @@ class Categorizer:
         self.image_group_path = None
         self.image_group_dirname = None
         self.move = move
-        self.list_of_categories = []
+        self.all_dir_categories = {}
 
 
     def verify_list_or_dict(self, vt, verify):
@@ -273,11 +273,11 @@ class Categorizer:
                 latest_level = copy.deepcopy(self.latest_level)
                 categories, latest_level = self.categorize_one(latest_level, self.categories)
                 self.categories = categories
-                self.list_of_categories.append(categories)
+                self.all_dir_categories[self.image_group_dirname] = categories
                 if self.move:
                     self.move_directory()
 
-        return self.list_of_categories,
+        return self.all_dir_categories
 
 
 
