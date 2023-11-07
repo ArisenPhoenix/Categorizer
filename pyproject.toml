@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "Merkurial_Categorizer"
-version = "0.0.1"
+version = "0.0.2"
 authors = [
     {name="Brandon Marcure", email="brandon@merkurialphoenix.com"}
 ]
