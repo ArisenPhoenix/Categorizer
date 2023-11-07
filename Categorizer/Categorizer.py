@@ -1,14 +1,28 @@
-from FileUtils.paths import Dir
 import collections
 import os
 import copy
 import shutil
 import json
 
+try:
+    from FileUtils.paths import Dir
+except ImportError:
+    message = "Dir Must Be Installed To Run Categorizer\nYou May Run The Following Command To Install It:\n"
+    message += "'pip install Merkurial-FileUtils>=0.0.0'\n\nAll Other Dependencies Are Pre-Packaged With Python"
+    raise ImportError(message)
+
 
 class Categorizer:
     def __init__(self, root_dir: str | Dir, latest_level, categories: dict | collections.OrderedDict | None = None,
                  move=False, debug_main: bool = None, debug: bool = None):
+        """
+        :param root_dir: The Full Directory Path Containing All The Folders You Want To Categorize
+        :param latest_level: this is most likely just going to be an empty dictionary if you haven't categorized yet.
+        :param categories: This is the categories Template Discussed later on.
+        :param move: set to True If you want to actually move the directories
+        :param debug_main: Default None, it is used for printing to give an idea of what might be going wrong in categorizeation
+        :param debug: sames as debug_main but more detailed... lets say this means verbose
+        """
 
         self.POINTER = root_dir if isinstance(root_dir, Dir) else Dir(root_dir)
         if categories is None:
@@ -124,7 +138,7 @@ class Categorizer:
 
             if sub == "__EMPTY__":
                 if self.debug_main:
-                    print("Empty")
+                    print("__EMPTY__\nEnd Of Categorization For This Category")
                 if callback:
                     returning = True
                     if self.debug_main:
@@ -164,7 +178,7 @@ class Categorizer:
                     return categories, sub, returning
                 else:
                     if self.debug_main:
-                        print(f"{category} Callback Was Unsuccessful")
+                        print(f"{category} Callback Found No Matching Criteria")
 
             if verify is None:
                 if self.debug_main:
@@ -263,7 +277,8 @@ class Categorizer:
                 if self.move:
                     self.move_directory()
 
-        return self.list_of_categories
+        return self.list_of_categories,
+
 
 
 
